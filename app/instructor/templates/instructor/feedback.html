@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+Provide Feedback
+{% endblock %}
+
+{% block content %}
+<h1>Provide Feedback for Submission #{{ submission.id }}</h1>
+
+<p><strong>Assignment ID:</strong> {{ submission.assignment_id }}</p>
+<p><strong>Student ID:</strong> {{ submission.student_id }}</p>
+
+<h3>Submission Content</h3>
+<pre>{{ submission.content }}</pre>
+
+<form method="post">
+    <p>
+        <label>Feedback:</label><br>
+        <textarea name="feedback" rows="5" cols="60">
+{{ submission.feedback or "" }}
+        </textarea>
+    </p>
+    <button type="submit">Save Feedback</button>
+    <a href="{{ url_for('instructor.list_assignments') }}">Back to assignments</a>
+</form>
+{% endblock %}
