@@ -1,4 +1,4 @@
-from app import db
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
@@ -24,6 +24,7 @@ class Assignment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200))
     due_date = db.Column(db.DateTime)
+    submissions = db.relationship('Submission', backref='assignment', lazy=True)
 
 
 class Submission(db.Model):
@@ -32,3 +33,5 @@ class Submission(db.Model):
     assignment_id = db.Column(db.Integer, db.ForeignKey('assignment.id'))
     content = db.Column(db.Text)
     grade = db.Column(db.Integer, nullable=True)
+    feedback = db.Column(db.Text, nullable=True)
+

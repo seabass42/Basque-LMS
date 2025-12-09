@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Grades
+{% endblock %}
+
+{% block content %}
+<h1>My Grades</h1>
+
+{% if submissions %}
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Assignment</th>
+        <th>Grade</th>
+        <th>Feedback</th>
+    </tr>
+    {% for s in submissions %}
+    <tr>
+        <td>
+            {% if s.assignment %}
+                {{ s.assignment.title }}
+            {% else %}
+                (Unknown assignment)
+            {% endif %}
+        </td>
+        <td>
+            {% if s.grade is not none %}
+                {{ s.grade }}
+            {% else %}
+                Not graded yet
+            {% endif %}
+        </td>
+        <td>{{ s.feedback or '' }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>You do not have any submissions yet.</p>
+{% endif %}
+
+{% endblock %}
