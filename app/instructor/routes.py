@@ -6,9 +6,9 @@ from flask import (
     flash,
     request,
 )
-from flask_login import current_user
+from flask_login import current_user, login_required
 
-from app.forms import AnnouncementForm
+from app.forms import AnnouncementForm, AssignmentForm
 from app.models import Announcement, Assignment, Submission, db
 
 instructor = Blueprint('instructor', __name__, template_folder='templates')
@@ -36,7 +36,44 @@ def create_announcement():
     return render_template('instructor/create_announcement.html', form=form)
 
 
+@instructor.route("/grade/<int:submission_id>", methods=["GET", "POST"])
+@login_required
+def grade(submission_id):
+    if current_user.role != "instructor":
+        return "Unauthorized", 403
+
+    submission = Submission.query.get_or_404(submission_id)
+
+    if request.method == "POST":
+        new_grade = request.form.get("grade")
+        submission.grade = int(new_grade)
+        db.session.commit()
+        return redirect("/instructor/submissions")
+
+    return render_template("grade.html", submission=submission)
+
+
+@instructor.route('/assignment/create', methods=['GET', 'POST'])
+@login_required
+def create_assignment():
+    form = AssignmentForm()
+
+    if form.validate_on_submit():
+        assignment = Assignment(
+            title=form.title.data,
+            due_date=form.due_date.data,
+        )
+        db.session.add(assignment)
+        db.session.commit()
+        flash("Assignment created successfully!", "success")
+        return redirect(url_for("instructor.instructor_home"))
+
+    return render_template("instructor/instructor_createassignment.html",
+                           form=form)
+
+
 @instructor.route('/assignments')
+@login_required
 def list_assignments():
     """
     Show all assignments so the instructor can edit or delete them.
@@ -48,6 +85,7 @@ def list_assignments():
 
 
 @instructor.route('/assignments/<int:assignment_id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit_assignment(assignment_id):
     """
     Edit an existing assignment (simple: only title for now).
@@ -72,6 +110,7 @@ def edit_assignment(assignment_id):
 
 
 @instructor.route('/assignments/<int:assignment_id>/delete', methods=['POST'])
+@login_required
 def delete_assignment(assignment_id):
     """
     Delete an assignment.
@@ -88,6 +127,7 @@ def delete_assignment(assignment_id):
 
 @instructor.route('/submissions/<int:submission_id>/feedback',
                   methods=['GET', 'POST'])
+@login_required
 def give_feedback(submission_id):
     """
     Instructor can view a submission and add/update feedback.

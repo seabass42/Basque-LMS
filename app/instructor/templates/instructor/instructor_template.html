@@ -5,7 +5,10 @@ Basque - LMS for Instructors
 {% endblock %}
 
 {% block content %}
-    <h1>Welcome, Professor {{ users.name }}</h1>
+    <h1>Welcome, Professor {{ current_user.username }}</h1>
+    
+    <a href="/instructor/announcement/create">
     <button>Create Announcement</button> <br/>
+    </a>
     <button>Create Assignment</button>
 {% endblock %}
