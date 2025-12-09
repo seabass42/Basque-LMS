@@ -33,7 +33,7 @@ def create_announcement():
         flash('Announcement created.', 'success')
         return redirect(url_for('instructor.instructor_home'))
 
-    return render_template('instructor/create_announcement.html', form=form)
+    return render_template('instructor/instructor_create_announcement.html', form=form)
 
 
 @instructor.route("/grade/<int:submission_id>", methods=["GET", "POST"])
