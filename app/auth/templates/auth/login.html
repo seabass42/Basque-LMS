@@ -1,11 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}Feature Page - Basque LMS{% endblock %}
+{% block title %}Basque - LMS{% endblock %}
 
-<html>
-<head>
-    <title>My web page -- {{users.name}}</title>
-</head>
+{% block content %}
 <body>
     <h1>Sign in</h1>
     <form action="" method="POST" novalidate>
@@ -24,4 +21,4 @@
 
     <p>{{form.submit()}}</p>
     </form>
-</body>
+{% endblock %}
