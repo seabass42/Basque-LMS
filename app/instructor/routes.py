@@ -54,7 +54,6 @@ def grade(submission_id):
 
 
 @instructor.route('/assignment/create', methods=['GET', 'POST'])
-@login_required
 def create_assignment():
     form = AssignmentForm()
 
