@@ -16,7 +16,12 @@ def create_app():
     app.config.from_object(Config)
 
     db.init_app(app)
-
+    login_manager.init_app(app)
+    from app.models import User
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
+        
     from app.main.routes import main
     from app.auth.routes import auth
     from app.instructor.routes import instructor
