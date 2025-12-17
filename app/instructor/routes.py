@@ -15,9 +15,19 @@ instructor = Blueprint('instructor', __name__, template_folder='templates')
 
 
 @instructor.route('/')
+@login_required
 def instructor_home():
+    if current_user.role not in ['teacher', 'ta', 'instructor']:
+        flash('Unauthorized access.', 'danger')
+        return redirect(url_for('main.index'))
+    
+    announcements = Announcement.query.order_by(Announcement.created_at.desc()).all()
+    assignments = Assignment.query.order_by(Assignment.due_date.desc()).all()
+    
     return render_template('instructor/instructor_template.html',
-                           users=current_user)
+                           announcements=announcements,
+                           assignments=assignments)
+
 
 
 @instructor.route('/announcement/create', methods=['GET', 'POST'])
