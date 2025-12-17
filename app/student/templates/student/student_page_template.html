@@ -1,10 +1,12 @@
+{% extends "base.html" %}
+
 {% block title %}Student Dashboard - Basque LMS{% endblock %}
 
 {% block content %}
 <h1>Welcome, {{ current_user.username }}</h1>
 
 {% if upcoming_assignments %}
-<div class="reminder-section" style="background-color: #fff3cd; border: 1px solid #ffc107; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+<div class="reminder-section" style="background-color: #0c0a02; border: 1px solid #ffc107; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
     <h2 style="color: #856404;">Upcoming Assignment Reminders</h2>
     <p>You have assignments due within the next 7 days:</p>
     <ul>
@@ -35,7 +37,7 @@
 {% if all_assignments %}
 <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
     <thead>
-        <tr style="background-color: #f8f9fa;">
+        <tr style="background-color: #0c0a02;">
             <th style="padding: 10px; border: 1px solid #dee2e6; text-align: left;">Assignment</th>
             <th style="padding: 10px; border: 1px solid #dee2e6; text-align: left;">Due Date</th>
             <th style="padding: 10px; border: 1px solid #dee2e6; text-align: left;">Status</th>

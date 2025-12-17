@@ -1,8 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %}Index Page - Basque LMS{% endblock %}
-
 {% block content %}
-<h1>Index Page</h1>
-<p>Index demo</p>
+<div class="my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-dark text-light shadow-lg p-5 text-center">
+                <h1 class="display-4 mb-4">Basque</h1>
+                <p class="lead mb-4">A forest of knowledge</p>
+                <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-lg me-3">Login</a>
+                <a href="{{ url_for('auth.register') }}" class="btn btn-outline-light btn-lg">Register</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
