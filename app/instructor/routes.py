@@ -36,21 +36,39 @@ def create_announcement():
     return render_template('instructor/instructor_create_announcement.html', form=form)
 
 
+@instructor.route('/submissions')
+@login_required
+def list_submissions():
+    if current_user.role not in ['teacher', 'ta', 'instructor']:
+        flash('Unauthorized access.', 'danger')
+        return redirect(url_for('main.index'))
+    
+    submissions = Submission.query.all()
+    return render_template('instructor/submissions.html', submissions=submissions)
+
 @instructor.route("/grade/<int:submission_id>", methods=["GET", "POST"])
 @login_required
 def grade(submission_id):
-    if current_user.role != "instructor":
-        return "Unauthorized", 403
+    if current_user.role not in ['teacher', 'ta', 'instructor']:
+        flash('Unauthorized access.', 'danger')
+        return redirect(url_for('main.index'))
 
     submission = Submission.query.get_or_404(submission_id)
 
     if request.method == "POST":
         new_grade = request.form.get("grade")
-        submission.grade = int(new_grade)
+        new_feedback = request.form.get("feedback", "").strip()
+        
+        if new_grade:
+            submission.grade = int(new_grade)
+        if new_feedback:
+            submission.feedback = new_feedback
+            
         db.session.commit()
-        return redirect("/instructor/submissions")
+        flash('Grade updated successfully!', 'success')
+        return redirect(url_for('instructor.list_submissions'))
 
-    return render_template("grade.html", submission=submission)
+    return render_template("instructor/grade.html", submission=submission)
 
 
 @instructor.route('/assignment/create', methods=['GET', 'POST'])
