@@ -9,6 +9,31 @@ from app.forms import SubmitAssignmentForm
 
 student = Blueprint('student', __name__, template_folder='templates')
 
+@student.route('/')
+@login_required
+def student_home():
+    from datetime import datetime, timedelta
+    
+    now = datetime.utcnow()
+    upcoming_deadline = now + timedelta(days=7)
+    
+    upcoming_assignments = Assignment.query.filter(
+        Assignment.due_date >= now,
+        Assignment.due_date <= upcoming_deadline
+    ).order_by(Assignment.due_date).all()
+    
+    all_assignments = Assignment.query.filter(Assignment.due_date >= now).order_by(Assignment.due_date).all()
+    
+    my_submissions = Submission.query.filter_by(student_id=current_user.id).all()
+    submitted_ids = [s.assignment_id for s in my_submissions]
+    
+    return render_template('student/student_page_template.html', 
+                          upcoming_assignments=upcoming_assignments,
+                          all_assignments=all_assignments,
+                          my_submissions=my_submissions,
+                          submitted_ids=submitted_ids,
+                          now=now)
+    
 @student.route('/assignment/<int:assignment_id>/submit', methods=['GET', 'POST'])
 def submit_assignment(assignment_id):
     if current_user.role != "student":
