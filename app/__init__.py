@@ -17,6 +17,9 @@ def create_app():
 
     db.init_app(app)
 
+    login_manager.init_app(app)
+    app.login_manager = login_manager
+
     from app.main.routes import main
     from app.auth.routes import auth
     from app.instructor.routes import instructor
@@ -26,6 +29,11 @@ def create_app():
     app.register_blueprint(auth, url_prefix="/auth")
     app.register_blueprint(instructor, url_prefix="/instructor")
     app.register_blueprint(student, url_prefix="/student")
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        from .models import User
+        return User.query.get(int(user_id))
 
     with app.app_context():
         db.create_all()
