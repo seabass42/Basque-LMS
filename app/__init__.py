@@ -1,21 +1,24 @@
-import os
-
 from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
-
 from .config import Config
+
 db = SQLAlchemy()
 
 login_manager = LoginManager()
-login_manager.login_view = 'auth.login'
-
+login_manager.login_view = "auth.login"
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
     db.init_app(app)
+    login_manager.init_app(app)   
+
+    @login_manager.user_loader    
+    def load_user(user_id):
+        from .models import User
+        return User.query.get(int(user_id))
 
     from app.main.routes import main
     from app.auth.routes import auth
@@ -27,6 +30,7 @@ def create_app():
     app.register_blueprint(instructor, url_prefix="/instructor")
     app.register_blueprint(student, url_prefix="/student")
 
-    with app.app_context():
+    with app.app_context(): 
         db.create_all()
+
     return app

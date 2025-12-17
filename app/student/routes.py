@@ -1,15 +1,14 @@
-from flask import render_template, request, redirect, url_for, flash, Blueprint
-from flask_sqlalchemy import SQLAlchemy
+from flask import render_template, request, redirect, url_for, flash, Blueprint, abort
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 import os
 
-
+from app import db
 from app.models import Assignment, Submission
 from app.forms import SubmitAssignmentForm
 
-db = SQLAlchemy()
 student = Blueprint('student', __name__, template_folder='templates')
+
 
 @student.route('/')
 @login_required

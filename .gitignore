@@ -1,10 +1,6 @@
-app/__pycache__/__init__.cpython-314.pyc
-app/__pycache__/config.cpython-314.pyc
-app/__pycache__/forms.cpython-314.pyc
-app/__pycache__/models.cpython-314.pyc
-app/auth/__pycache__/__init__.cpython-314.pyc
-app/auth/__pycache__/routes.cpython-314.pyc
-app/instructor/__pycache__/__init__.cpython-314.pyc
-app/instructor/__pycache__/routes.cpython-314.pyc
-app/main/__pycache__/__init__.cpython-314.pyc
-app/main/__pycache__/routes.cpython-314.pyc
+__pycache__/
+*.pyc
+*.pyo
+*.db
+instance/
+venv/
