@@ -24,12 +24,12 @@ def session(app):
 
 
 def test_create_user(session):
-    user = User(email="test@example.com", password="pw123", role="student")
+    user = User(username="test@example.com", password="pw123", role="student")
     session.add(user)
     session.commit()
 
     assert user.id is not None
-    assert user.email == "test@example.com"
+    assert user.username == "test@example.com"
     assert user.role == "student"
 
 
@@ -67,7 +67,7 @@ def test_create_assignment(session):
 
 
 def test_submission_relationships(session):
-    student = User(email="student@test.com", password="pw", role="student")
+    student = User(username="student@test.com", password="pw", role="student")
     session.add(student)
     session.commit()
 

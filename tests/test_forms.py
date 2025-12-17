@@ -23,9 +23,10 @@ def test_login_form_missing_username(app):
         assert "This field is required." in form.username.errors
 
 
-def test_login_form_fields_exist():
-    form = LoginForm()
-    assert hasattr(form, "username")
-    assert hasattr(form, "password")
-    assert hasattr(form, "remember_me")
-    assert hasattr(form, "submit")
+def test_login_form_fields_exist(app):
+    with app.app_context():
+        form = LoginForm()
+        assert hasattr(form, "username")
+        assert hasattr(form, "password")
+        assert hasattr(form, "remember_me")
+        assert hasattr(form, "submit")
