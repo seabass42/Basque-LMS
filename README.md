@@ -19,7 +19,7 @@ Run:
 python run.py
 
 Roles:
-Ting Lun Ho - Instructor grading, login/logout, student reminders
+Ting Lun Ho - Instructor grading, login/logout, student reminders, register page
 
 Thanh Vo - Student view grades, instructor feedback, instructor delete/edit assignments
 
